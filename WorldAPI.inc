@@ -5,17 +5,39 @@ abstract class WorldAPI {
   
   var $worldAPIData; // keep the data around and avoid duplicate requests.
   
-  function __construct($uuid = '') {
+  public function __construct($uuid = '') {
     $this->setUUID($uuid);
   }
   
-  function setUUID($uuid = '') {
+  public function setUUID($uuid = '') {
     $this->uuid = $uuid;
     return $this->uuid;
   }
 
   /**
+   * Return the resource type.
+   */
+  protected function resourceType() {
+    // Return an empty string in order to generate an error.
+    // We do this because subclasses should override this function.
+    return '';
+  }
+
+  /**
+   * Return a list of relevant meta fields.
+   */
+  protected function resourceFields() {
+    // Returns a list of fields we want to glean from the meta tags.
+    // We return an empty array because other classes should
+    // override this.
+    return array();
+  }
+
+  /**
    * Build a URL based on type and UUID.
+   *
+   * We'll get the contents of this URL to parse for World API's
+   * meta-data.
    */
   protected function url() {
     $type = $this->resourceType();
@@ -33,7 +55,7 @@ abstract class WorldAPI {
   public function worldAPI() {
     // send back the cache if it's there.
     // todo: make this work.
-    if (!empty($worldAPIData)) {
+    if (isset($worldAPIData)) {
       return $worldAPIData;
     }
     
@@ -47,18 +69,19 @@ abstract class WorldAPI {
     }
 
     // Get the page with cURL.
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_HEADER, 0);
+    // Init with our URL.
+    $ch = curl_init($url);
+    // Tel cURL we want the results back as a string.
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-  
+    // Nab!
     $html = curl_exec($ch);
     curl_close($ch);
     
     //parsing begins here:
     $doc = new DOMDocument();
-    $doc->loadHTML($html);
+    // We suppress errors from loadHTML() because Linden Lab
+    // is no good at returning well-formed HTML.
+    @$doc->loadHTML($html);
     $nodes = $doc->getElementsByTagName('title');
     
     $title = $nodes->item(0)->nodeValue;
@@ -77,16 +100,28 @@ abstract class WorldAPI {
     $this->worldAPIData['cached'] = 'yes';
     return $result;
   }
+    
+  /**
+   * Generate an image URL for this resource.
+   *
+   * All World API resources have an imageid, so this function
+   * is public.
+   *
+   * $size is undocumented by Linden Lab, but experimentation reveals:
+   * 1 = 256 x 192
+   * 2 = 320 x 240
+   * 3 = 60 x 45
+   *
+   * Displayed image will be watermarked by Linden Lab.
+   */
+  public function imageURL($size = '1') {
+    $result = '';
+    $data = $this->worldAPI();
+    if (isset($data['imageid'])) {
+      $uuid = $data['imageid'];
+      $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+    }
+    return $result;
+  }
   
-  protected function resourceType() {
-    // override this, please.
-    return '';
-  }
-
-  protected function resourceFields() {
-    // Returns a list of fields we want to glean from the meta tags.
-    // We return an empty array because other classes should
-    // override this.
-    return array();
-  }
 }

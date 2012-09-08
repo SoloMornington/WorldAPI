@@ -1,13 +1,15 @@
 <?php
 
 require_once('WorldAPI.inc');
+require_once('WorldAPIResident.inc');
+require_once('WorldAPIGroup.inc');
 
 class WorldAPIPlace extends WorldAPI {
-  function resourceType() {
+  public function resourceType() {
     return 'place';
   }
 
-  function resourceFields() {
+  public function resourceFields() {
     return array(
       'parcelid', 'description', 'region', 'location', 'snapshot',
       'mat', 'imageid', 'parcel', 'area', 'ownerid', 'ownertype',
@@ -25,4 +27,27 @@ class WorldAPIPlace extends WorldAPI {
     unset($data['title']);
     return $data;
   }
+  
+  /**
+   * Determine the place owner.
+   *
+   * Could be either a Resident or a Group,
+   * or NULL if there was a problem.
+   */
+  public function owner() {
+    $result = NULL;
+    $owner = $this->worldAPI();
+    if (isset($owner['ownertype'])) {
+      $uuid = $owner['ownerid'];
+      switch ($owner['ownertype']) {
+        case 'group':
+          $result = new WorldAPIGroup($uuid);
+          break;
+        case 'resident':
+          $result = new WorldAPIResident($uuid);
+      }
+    }
+    return $result;
+  }
+  
 }

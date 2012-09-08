@@ -14,6 +14,8 @@ echo '<h2>Resident</h2>';
 
 $metas = $resident->worldAPI();
 
+echo '<img src="' . $resident->imageURL() . '"></br>';
+
 foreach ($metas as $key => $data) {
   echo 'resident: ' . $key . ' = ' . $data . '<br/><br/>';
 }
@@ -22,17 +24,33 @@ echo '<h2>Place</h2>';
 
 $metas = $place->worldAPI();
 
+echo '<img src="' . $place->imageURL() . '"></br>';
+
 foreach ($metas as $key => $data) {
   echo 'place: ' . $key . ' = ' . $data . '<br/><br/>';
 }
 
+echo '<h2>Owner</h2>';
+
+$owner = $place->owner();
+
+$metas = $owner->worldAPI();
+
+echo '<img src="' . $owner->imageURL() . '"></br>';
+
+foreach ($metas as $key => $data) {
+  echo 'owner: ' . $key . ' = ' . $data . '<br/><br/>';
+}
+
+
+/*
 echo '<h2>Group</h2>';
 
 $metas = $group->worldAPI();
 
 foreach ($metas as $key => $data) {
   echo 'group: ' . $key . ' = ' . $data . '<br/><br/>';
-}
+}*/
 
 ?>
 </body></html>
