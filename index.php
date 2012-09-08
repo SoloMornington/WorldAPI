@@ -31,7 +31,7 @@ echo '<h2>Group</h2>';
 $metas = $group->worldAPI();
 
 foreach ($metas as $key => $data) {
-  echo 'place: ' . $key . ' = ' . $data . '<br/><br/>';
+  echo 'group: ' . $key . ' = ' . $data . '<br/><br/>';
 }
 
 ?>
