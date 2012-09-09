@@ -20,6 +20,7 @@ class WorldAPIResident extends WorldAPI {
     $data = parent::worldAPI();
     if (isset($data['title'])) {
       // todo: work on this for sure.
+      // 'title' can give you results like DiSpLaYnAm3zSuxxor(silly.resident).
       $data['name'] = $data['title'];
       unset($data['title']);
     }

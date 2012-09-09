@@ -20,6 +20,9 @@ foreach ($metas as $key => $data) {
   echo 'resident: ' . $key . ' = ' . $data . '<br/><br/>';
 }
 
+$fields = $resident->resourceFields();
+echo 'thing: ' . array_pop($fields);
+
 echo '<h2>Place</h2>';
 
 $metas = $place->worldAPI();
