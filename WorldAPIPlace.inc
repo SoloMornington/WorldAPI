@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * PHP wrapper for the Second Life World API.
+ */
+
 require_once('WorldAPI.inc');
 require_once('WorldAPIResident.inc');
 require_once('WorldAPIGroup.inc');
@@ -27,7 +32,7 @@ class WorldAPIPlace extends WorldAPI {
     unset($data['title']);
     return $data;
   }
-  
+
   /**
    * Determine the place owner.
    *
@@ -49,5 +54,5 @@ class WorldAPIPlace extends WorldAPI {
     }
     return $result;
   }
-  
+
 }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * PHP wrapper for the Second Life World API.
+ */
+
 require_once('WorldAPI.inc');
 require_once('WorldAPIResident.inc');
 

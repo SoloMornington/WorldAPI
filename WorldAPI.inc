@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file PHP wrapper for the Second Life World API.
+ * @file
+ * PHP wrapper for the Second Life World API.
  */
 
 abstract class WorldAPI {
@@ -43,8 +44,7 @@ abstract class WorldAPI {
   /**
    * Build a URL based on type and UUID.
    *
-   * We'll get the contents of this URL to parse for World API's
-   * meta-data.
+   * The URL we need to parse for meta data.
    */
   protected function url() {
     $type = $this->resourceType();
@@ -63,16 +63,17 @@ abstract class WorldAPI {
   public function worldAPI() {
     // send back the cache if it's there.
     // todo: make this work.
-    if (isset($worldAPIData)) {
-      return $worldAPIData;
-    }
+    //if (isset($worldAPIData)) {
+    //  return $worldAPIData;
+    //}
 
     $result = array();
-    $url = $this->url();
-    // If the URL is empty, return an empty record.
-    if ($url == '') {
+    try {
+      $url = $this->url();
+    } catch (WorldAPIException $e) {
+      // If we have a bad URL, return an empty record.
       $result = array_flip($this->resourceFields());
-      foreach ($result as $key=>$value) $result[$key] = '';
+      foreach ($result as $key => $value) $result[$key] = '';
       return $result;
     }
 
@@ -81,12 +82,13 @@ abstract class WorldAPI {
     $ch = curl_init($url);
     // Tel cURL we want the results back as a string.
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,2);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
     // Nab!
     $html = curl_exec($ch);
+    $htmlCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($html == '')
+    if (($html == '') || ($htmlCode != 200))
       throw new WorldAPIException('Unable to load World API data.');
 
     //parsing begins here:
@@ -94,22 +96,22 @@ abstract class WorldAPI {
     // We suppress errors from loadHTML() because Linden Lab
     // is no good at returning well-formed HTML.
     @$doc->loadHTML($html);
-    $nodes = $doc->getElementsByTagName('title');
-
-    $title = $nodes->item(0)->nodeValue;
-
-    // We always return title, even though some don't use it.
-    $result['title'] = $title;
+    $htmlnode = $doc->getElementsByTagName('title');
+    if ($htmlnode) {
+      $titleNode = $htmlnode->item(0);
+      if ($titleNode) {
+        // We always return title, even though some don't use it.
+        $result['title'] = $titleNode->nodeValue;
+      }
+    }
 
     $metas = $doc->getElementsByTagName('meta');
     $fields = array_flip($this->resourceFields());
     foreach ($metas as $meta) {
       $key = $meta->getAttribute('name');
-      if(array_key_exists($key, $fields))
+      if (array_key_exists($key, $fields))
         $result[$key] = $meta->getAttribute('content');
     }
-    $this->worldAPIData = $result;
-    $this->worldAPIData['cached'] = 'yes';
     return $result;
   }
 
@@ -130,10 +132,15 @@ abstract class WorldAPI {
    */
   public function imageURL($size = '1') {
     $result = '';
-    $data = $this->worldAPI();
-    if (isset($data['imageid'])) {
-      $uuid = $data['imageid'];
-      $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+    try {
+      $data = $this->worldAPI();
+      if (isset($data['imageid'])) {
+        $uuid = $data['imageid'];
+        $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+      }
+    } catch (WorldAPIException $e) {
+      // Our default is a NULL_KEY image.
+      $result = 'http://secondlife.com/app/image/00000000-0000-0000-0000-000000000000/' . $size;
     }
     return $result;
   }
