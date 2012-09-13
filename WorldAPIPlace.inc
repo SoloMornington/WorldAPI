@@ -16,9 +16,19 @@ class WorldAPIPlace extends WorldAPI {
 
   public function resourceFields() {
     return array(
-      'parcelid', 'description', 'region', 'location', 'snapshot',
-      'mat', 'imageid', 'parcel', 'area', 'ownerid', 'ownertype',
-      'owner', 'category'
+      'parcelid' => 'Parcel UUID',
+      'description' => 'Description',
+      'region' => 'Region',
+      'location' => 'Location',
+      'snapshot' => 'Snapshot',
+      'mat' => 'Maturity Rating',
+      'imageid' => 'Image UUID',
+      'parcel' => 'Parcel Name',
+      'area' => 'Parcel Area',
+      'ownerid' => 'Owner UUID',
+      'ownertype' => 'Owner Type',
+      'owner' => 'Owner UUID',
+      'category' => 'Category',
     );
   }
 

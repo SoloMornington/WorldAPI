@@ -15,15 +15,15 @@ class WorldAPIGroup extends WorldAPI {
 
   function resourceFields() {
     return array(
-      'description',
-      'member_count',
-      'open_enrollment',
-      'membership_fee',
-      'founderid',
-      'founder',
-      'groupid',
-      'imageid',
-      'mat'
+      'description' => 'Description',
+      'member_count' => 'Member Count',
+      'open_enrollment' => 'Open Enrollment',
+      'membership_fee' => 'Membership Fee',
+      'founderid' => 'Founder UUID',
+      'founder' => 'Founder',
+      'groupid' => 'Group UUID',
+      'imageid' => 'Image UUID',
+      'mat' => 'Maturity Rating',
     );
   }
 

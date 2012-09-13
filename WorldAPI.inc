@@ -33,6 +33,9 @@ abstract class WorldAPI {
    *
    * We make this public so that others can grab the list and iterate
    * over it.
+   *
+   * Array elements should be in the form:
+   * 'field' => 'Human-readable'.
    */
   public function resourceFields() {
     // Returns a list of fields we want to glean from the meta tags.
@@ -72,7 +75,7 @@ abstract class WorldAPI {
       $url = $this->url();
     } catch (WorldAPIException $e) {
       // If we have a bad URL, return an empty record.
-      $result = array_flip($this->resourceFields());
+      $result = $this->resourceFields();
       foreach ($result as $key => $value) $result[$key] = '';
       return $result;
     }
@@ -106,7 +109,7 @@ abstract class WorldAPI {
     }
 
     $metas = $doc->getElementsByTagName('meta');
-    $fields = array_flip($this->resourceFields());
+    $fields = $this->resourceFields();
     foreach ($metas as $meta) {
       $key = $meta->getAttribute('name');
       if (array_key_exists($key, $fields))
@@ -128,24 +131,30 @@ abstract class WorldAPI {
    * 2 = 320 x 240
    * 3 = 60 x 45
    *
+   * $uuid allows you to use this function to generate a URL
+   * independent of worldAPI data.
+   *
    * Displayed image will be watermarked by Linden Lab.
    */
-  public function imageURL($size = '1') {
-    $result = '';
-    try {
-      $data = $this->worldAPI();
-      if (isset($data['imageid'])) {
-        $uuid = $data['imageid'];
-        $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+  public function imageURL($size = '1', $uuid = NULL) {
+    $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+    if (!$uuid) {
+      try {
+        $data = $this->worldAPI();
+        if (isset($data['imageid'])) {
+          $uuid = $data['imageid'];
+          $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+        }
+      } catch (WorldAPIException $e) {
+        // Our default is a NULL_KEY image.
+        // To prevent broken images on your site.
+        $result = 'http://secondlife.com/app/image/00000000-0000-0000-0000-000000000000/' . $size;
       }
-    } catch (WorldAPIException $e) {
-      // Our default is a NULL_KEY image.
-      $result = 'http://secondlife.com/app/image/00000000-0000-0000-0000-000000000000/' . $size;
     }
     return $result;
   }
 
-}
+} // End of WorldAPI class
 
 class WorldAPIException extends Exception {
   // Maybe someday there will be something here.

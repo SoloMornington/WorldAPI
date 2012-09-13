@@ -14,7 +14,10 @@ class WorldAPIResident extends WorldAPI {
 
   function resourceFields() {
     return array(
-      'mat', 'imageid', 'agentid', 'description'
+      'mat' => 'Maturity Rating',
+      'imageid' => 'Image UUID',
+      'agentid' => 'Agent UUID',
+      'description' => 'Description',
     );
   }
 
