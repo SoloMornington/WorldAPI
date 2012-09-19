@@ -35,7 +35,9 @@ abstract class WorldAPI {
    * over it.
    *
    * Array elements should be in the form:
-   * 'field' => 'Human-readable'.
+   * 'field' => 'Human-readable',
+   * 'agentid' => 'Avatar UUID',
+   * ....
    */
   public function resourceFields() {
     // Returns a list of fields we want to glean from the meta tags.
@@ -85,13 +87,13 @@ abstract class WorldAPI {
     $ch = curl_init($url);
     // Tel cURL we want the results back as a string.
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
     // Nab!
     $html = curl_exec($ch);
-    $htmlCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if (($html == '') || ($htmlCode != 200))
+    if (($html == '') || ($httpCode != 200))
       throw new WorldAPIException('Unable to load World API data.');
 
     //parsing begins here:
@@ -136,21 +138,20 @@ abstract class WorldAPI {
    *
    * Displayed image will be watermarked by Linden Lab.
    */
-  public function imageURL($size = '1', $uuid = NULL) {
-    $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
+  public function imageURL($size = '2', $uuid = NULL) {
+    $prefix = 'http://secondlife.com/app/image/';
     if (!$uuid) {
+      $uuid = '00000000-0000-0000-0000-000000000000';
       try {
         $data = $this->worldAPI();
         if (isset($data['imageid'])) {
           $uuid = $data['imageid'];
-          $result = 'http://secondlife.com/app/image/' . $uuid . '/' . $size;
         }
       } catch (WorldAPIException $e) {
-        // Our default is a NULL_KEY image.
-        // To prevent broken images on your site.
-        $result = 'http://secondlife.com/app/image/00000000-0000-0000-0000-000000000000/' . $size;
+        // no-op.
       }
     }
+    $result = $prefix . $uuid . '/' . $size;
     return $result;
   }
 

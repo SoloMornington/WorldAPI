@@ -27,7 +27,7 @@ class WorldAPIPlace extends WorldAPI {
       'area' => 'Parcel Area',
       'ownerid' => 'Owner UUID',
       'ownertype' => 'Owner Type',
-      'owner' => 'Owner UUID',
+      'owner' => 'Owner',
       'category' => 'Category',
     );
   }
@@ -51,16 +51,40 @@ class WorldAPIPlace extends WorldAPI {
    */
   public function owner() {
     $result = NULL;
-    $owner = $this->worldAPI();
-    if (isset($owner['ownertype'])) {
-      $uuid = $owner['ownerid'];
-      switch ($owner['ownertype']) {
-        case 'group':
-          $result = new WorldAPIGroup($uuid);
-          break;
-        case 'resident':
-          $result = new WorldAPIResident($uuid);
+    try {
+      $owner = $this->worldAPI();
+      if (isset($owner['ownertype'])) {
+        $uuid = $owner['ownerid'];
+        switch ($owner['ownertype']) {
+          case 'group':
+            $result = new WorldAPIGroup($uuid);
+            break;
+          case 'agent':
+            $result = new WorldAPIResident($uuid);
+        }
       }
+    } catch (WorldAPIException $e) {
+      // no-op.
+    }
+    return $result;
+  }
+
+  /**
+   * Generates a SLURL URL for this place.
+   *
+   * Note: only the slurl, not any markup.
+   *
+   * http://slurl.com/secondlife/region/9/9/9/?img=image&title=title&msg=message
+   * @todo: add image, title, and message functionality
+   */
+  public function slurl($title='', $image='', $message='') {
+    $result = '';
+    try {
+      $data = $this->worldAPI();
+      $result = 'http://slurl.com/secondlife/' .
+        urlencode($data['region']) . '/' . $data['location'];
+    } catch (WorldAPIException $e) {
+      $result = '';
     }
     return $result;
   }

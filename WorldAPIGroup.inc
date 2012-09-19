@@ -46,10 +46,14 @@ class WorldAPIGroup extends WorldAPI {
    */
   public function founder() {
     $result = NULL;
-    $owner = $this->worldAPI();
-    if (isset($owner['founderid'])) {
-      $uuid = $owner['founderid'];
-      $result = new WorldAPIResident($uuid);
+    try {
+      $owner = $this->worldAPI();
+      if (isset($owner['founderid'])) {
+        $uuid = $owner['founderid'];
+        $result = new WorldAPIResident($uuid);
+      }
+    } catch (WorldAPIException $e) {
+      // no-op.
     }
     return $result;
   }
