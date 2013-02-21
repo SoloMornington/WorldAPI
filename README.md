@@ -17,7 +17,7 @@ WorldAPI needs: cURL and DOM PHP extensions, and PHP 5 (since it's a set of clas
 How do you use it?
 ------------------
 
-The index.php file has some example usage.
+The `demo.php` file has some example usage.
 
 Basically, instantiate one of the WorldAPI subclasses, passing a UUID as the single argument.
 
