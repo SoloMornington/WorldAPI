@@ -1,0 +1,19 @@
+{
+    "name": "Solo/WorldAPI",
+    "authors": [
+        {
+            "name": "Solo Mornington",
+            "email": "solomornington@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-0": { "Solo": [
+        "Src/",
+        "Test/"
+      ] }
+    },
+    "require": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
+
