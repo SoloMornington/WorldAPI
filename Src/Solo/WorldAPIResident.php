@@ -6,8 +6,6 @@ namespace 'Solo';
  * PHP wrapper for the Second Life World API.
  */
 
-require_once('WorldAPI.inc');
-
 class WorldAPIResident extends WorldAPI {
   function resourceType() {
     return 'resident';
