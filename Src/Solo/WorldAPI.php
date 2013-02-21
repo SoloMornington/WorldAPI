@@ -1,4 +1,5 @@
 <?php
+namespace Solo;
 
 /**
  * @file
@@ -21,12 +22,10 @@ abstract class WorldAPI {
 
   /**
    * Return the resource type.
+   *
+   * @return string
    */
-  protected function resourceType() {
-    // Return an empty string in order to generate an error.
-    // We do this because subclasses should override this function.
-    return '';
-  }
+  abstract protected function resourceType();
 
   /**
    * Return a list of relevant meta fields.
@@ -39,12 +38,7 @@ abstract class WorldAPI {
    * 'agentid' => 'Avatar UUID',
    * ....
    */
-  public function resourceFields() {
-    // Returns a list of fields we want to glean from the meta tags.
-    // We return an empty array because other classes should
-    // override this.
-    return array();
-  }
+  abstract public function resourceFields();
 
   /**
    * Build a URL based on type and UUID.
@@ -97,7 +91,7 @@ abstract class WorldAPI {
       throw new WorldAPIException('Unable to load World API data.');
 
     //parsing begins here:
-    $doc = new DOMDocument();
+    $doc = new \DOMDocument();
     // We suppress errors from loadHTML() because Linden Lab
     // is no good at returning well-formed HTML.
     @$doc->loadHTML($html);
@@ -157,7 +151,8 @@ abstract class WorldAPI {
 
 } // End of WorldAPI class
 
-class WorldAPIException extends Exception {
+class WorldAPIException extends \Exception {
   // Maybe someday there will be something here.
   // For now, just a nice name for our exceptions.
 }
+

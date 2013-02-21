@@ -1,11 +1,10 @@
 <?php
+namespace Solo;
 
 /**
  * @file
  * PHP wrapper for the Second Life World API.
  */
-
-require_once('WorldAPI.inc');
 
 class WorldAPIResident extends WorldAPI {
   function resourceType() {
@@ -36,3 +35,4 @@ class WorldAPIResident extends WorldAPI {
   }
 
 }
+
