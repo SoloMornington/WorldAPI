@@ -1,8 +1,9 @@
 <?php
-namespace 'Solo';
+namespace Solo;
 
-class WorldAPITest extends PHPUnit_....
+class WorldAPITest extends \PHPUnit_Framework_TestCase
 {
   public function testAPI() {
   }
 }
+

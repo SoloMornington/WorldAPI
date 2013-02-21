@@ -1,5 +1,5 @@
 <?php
-namespace 'Solo';
+namespace Solo;
 
 /**
  * @file
@@ -87,3 +87,4 @@ class WorldAPIPlace extends WorldAPI {
   }
 
 }
+

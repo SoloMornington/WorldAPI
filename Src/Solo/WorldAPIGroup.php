@@ -1,5 +1,5 @@
 <?php
-namespace 'Solo';
+namespace Solo;
 
 /**
  * @file
@@ -57,3 +57,4 @@ class WorldAPIGroup extends WorldAPI {
   }
 
 }
+

@@ -1,5 +1,5 @@
 <?php
-namespace 'Solo';
+namespace Solo;
 
 require_once('vendor/autoload.php');
 

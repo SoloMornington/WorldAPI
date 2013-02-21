@@ -1,5 +1,5 @@
 <?php
-namespace 'Solo';
+namespace Solo;
 
 /**
  * @file
@@ -22,9 +22,10 @@ abstract class WorldAPI {
 
   /**
    * Return the resource type.
+   *
+   * @return string
    */
-  abstract protected function resourceType() {
-  }
+  abstract protected function resourceType();
 
   /**
    * Return a list of relevant meta fields.
@@ -37,8 +38,7 @@ abstract class WorldAPI {
    * 'agentid' => 'Avatar UUID',
    * ....
    */
-  abstract public function resourceFields() {
-  }
+  abstract public function resourceFields();
 
   /**
    * Build a URL based on type and UUID.
@@ -155,3 +155,4 @@ class WorldAPIException extends \Exception {
   // Maybe someday there will be something here.
   // For now, just a nice name for our exceptions.
 }
+
