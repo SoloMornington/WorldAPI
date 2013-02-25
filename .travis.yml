@@ -11,7 +11,7 @@ php:
 # set up composer
 before_script:
   - curl -s https://getcomposer.org/installer | php
-  - php ./assignment2/composer.phar -v -o update
+  - php ./composer.phar -v -o update
 
 # run the phpunit tests
 script:
