@@ -1,7 +1,7 @@
 <?php
-namespace Solo;
+namespace Mornington;
 
-require_once('vendor/autoload.php');
+require_once('bootstrap.php');
 
 $resident = new WorldAPIResident('6d286553-59ae-409a-887d-ee75df67b834');
 //$place = new WorldAPIPlace('d92a6e35-396d-3de4-be08-452f3eeb2050'); // combat sim, resident owned
