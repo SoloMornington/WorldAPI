@@ -1,9 +1,9 @@
 <?php
-namespace Solo;
+namespace Mornington;
 
 class WorldAPITest extends \PHPUnit_Framework_TestCase
 {
-  public function testAPI() {
+  public function testWorldAPI() {
   }
 }
 
