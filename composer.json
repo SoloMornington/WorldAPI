@@ -1,5 +1,5 @@
 {
-    "name": "Mornington/WorldAPI",
+    "name": "mornington/worldapi",
     "type": "library",
     "description": "Wrap the Second Life World API.",
     "authors": [
