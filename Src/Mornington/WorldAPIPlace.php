@@ -1,5 +1,5 @@
 <?php
-namespace Solo;
+namespace Mornington;
 
 /**
  * @file
