@@ -7,7 +7,7 @@
         }
     ],
     "autoload": {
-      "psr-0": { "Solo": [
+      "psr-0": { "Mornington": [
         "Src/",
         "Test/"
       ] }
