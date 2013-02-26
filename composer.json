@@ -1,19 +1,22 @@
 {
-    "name": "Solo/WorldAPI",
+    "name": "Mornington/WorldAPI",
+    "type": "library",
+    "description": "Wrap the Second Life World API.",
     "authors": [
         {
             "name": "Solo Mornington",
             "email": "solomornington@gmail.com"
         }
     ],
+    "require": {
+      "php": ">=5.3.0",
+      "phpunit/phpunit": "3.7.*"
+    },
     "autoload": {
       "psr-0": { "Mornington": [
         "Src/",
         "Test/"
       ] }
-    },
-    "require": {
-        "phpunit/phpunit": "3.7.*"
     }
 }
 
