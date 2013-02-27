@@ -14,10 +14,32 @@ The Second Life World API documentation is here: https://wiki.secondlife.com/wik
 
 WorldAPI needs: cURL and DOM PHP extensions, and PHP 5 (since it's a set of classes).
 
+Installation
+------------
+
+WorldAPI is a packagist package: https://packagist.org/packages/mornington/worldapi
+
+You can use it with your project through Composer: http://getcomposer.org/
+
+The standard way to install composer is:
+
+- `cd` to your project directory.
+
+- Install composer: `curl -s https://getcomposer.org/installer | php`
+
+- Have composer generate a generic composer.json file: `php ./composer.phar init`
+
+- Tell composer to install/update dependencies: `php ./composer.phar -v -o update`
+
+To include WorldAPI in your project, add something like this to your dependencies, in composer.json:
+
+    "require": {
+      "mornington/worldapi": "dev-master"
+    }
+
+
 How do you use it?
 ------------------
-
-Eventually, WorldAPI will be a packagist package that you can then bundle with composer. For now, however, it only needs composer for autoloading.
 
 The `demo.php` file has some example usage.
 
@@ -39,9 +61,14 @@ It's happy and friendly and GNU licensed.
 Where does it live?
 -------------------
 
-The official repository for WorldAPI is on github. Of course, everyone's welcome to join in with bug reports and pull requests. https://github.com/SoloMornington/WorldAPI
+The official repository for WorldAPI is on github. Of course, everyone's welcome to join in with bug reports and pull requests. 
+
+https://github.com/SoloMornington/WorldAPI
 
 Who are you?
 ------------
 
 I'm Solo Mornington on Second Life. I'm working on this as part of a project for the Linden Endowment For The Arts. http://www.lea-sl.org
+
+You can contact me through my github page, or on Second Life.
+

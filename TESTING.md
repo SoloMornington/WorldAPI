@@ -1,8 +1,8 @@
 WorldAPI Testing
 ================
 
-How do you use it?
-------------------
+How do you run the tests?
+-------------------------
 
 WorldAPI uses PHPUnit for testing, managed by Composer.
 
