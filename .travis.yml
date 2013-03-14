@@ -16,3 +16,4 @@ before_script:
 # run the phpunit tests
 script:
   - php ./vendor/bin/phpunit --coverage-text -c phpunit.xml
+
