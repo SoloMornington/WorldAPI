@@ -1,3 +1,5 @@
+[![Total Downloads](https://poser.pugx.org/mornington/worldapi/d/total.png)](https://packagist.org/packages/mornington/worldapi)
+
 WorldAPI
 ========
 
