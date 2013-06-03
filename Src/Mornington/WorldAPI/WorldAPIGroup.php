@@ -1,5 +1,5 @@
 <?php
-namespace Mornington;
+namespace Mornington\WorldAPI;
 
 /**
  * @file

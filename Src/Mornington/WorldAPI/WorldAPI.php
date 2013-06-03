@@ -1,5 +1,5 @@
 <?php
-namespace Mornington;
+namespace Mornington\WorldAPI;
 
 /**
  * @file
@@ -7,12 +7,13 @@ namespace Mornington;
  */
 
 abstract class WorldAPI {
-  var $uuid; // UUID for the resource in question
+  protected $uuid; // UUID for the resource in question
 
-  var $worldAPIData; // keep the data around and avoid duplicate requests.
+  protected $data; // keep the data around and avoid duplicate requests.
 
   public function __construct($uuid = '') {
     $this->setUUID($uuid);
+    $this->data = NULL;
   }
 
   public function setUUID($uuid = '') {
@@ -51,6 +52,13 @@ abstract class WorldAPI {
       throw new WorldAPIException('Unable to create resource URL.');
     return 'http://world.secondlife.com/' . $type . '/' . $this->uuid;
   }
+  
+  /**
+   * This function allows us to test caching.
+   */
+  protected function getData() {
+    return $this->data;
+  }
 
   /**
    * Extract data from WorldAPI.
@@ -60,11 +68,9 @@ abstract class WorldAPI {
    * Much thanks: http://stackoverflow.com/questions/3711357/
    */
   public function worldAPI() {
-    // send back the cache if it's there.
-    // todo: make this work.
-    //if (isset($worldAPIData)) {
-    //  return $worldAPIData;
-    //}
+    if ($this->data) {
+      return $this->getData();
+    }
 
     $result = array();
     try {
@@ -111,6 +117,7 @@ abstract class WorldAPI {
       if (array_key_exists($key, $fields))
         $result[$key] = $meta->getAttribute('content');
     }
+    $this->data = $result;
     return $result;
   }
 
